@@ -2,8 +2,8 @@ class Virus {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.energy = 30;
-    this.directions = []
+    this.energy = 20;
+    this.directions = [];
   }
 
   getNewCoordinates() {

@@ -95,3 +95,6 @@ function draw() {
     alienArr[i].eat();
   }
 }
+
+var btn = document.getElementById("btn");
+btn.addEventListener("click", addMen);
