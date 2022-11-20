@@ -1,3 +1,4 @@
+var Predator = require("./predator")
 let matrix = [
   [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 3, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
@@ -95,6 +96,3 @@ function draw() {
     alienArr[i].eat();
   }
 }
-
-var btn = document.getElementById("btn");
-btn.addEventListener("click", addMen);
