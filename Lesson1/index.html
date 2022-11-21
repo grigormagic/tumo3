@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title></title>
-    <meta charset="utf8" />
-  </head>
-  <body>
-    <script src="Main.js"></script>
-    <script src="server.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
-    <script type="text/javascript" src="script.js"></script>
-    <script type="text/javascript" src="grass.js"></script>
-    <script type="text/javascript" src="grassEater.js"></script>
-    <script type="text/javascript" src="virus.js"></script>
-    <!-- <script type="text/javascript" src="predator.js"></script> -->
-    <script type="text/javascript" src="svetikkkkkk.js"></script>
 
-    <button id="btn" onclick="addMen()">Add Men</button>
-    <button onclick="kill()">Kell All</button>
-  </body>
+<head>
+	<title></title>
+	<meta charset="utf8">
+</head>
+
+<body>
+	<script src="p5.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="script.js"></script>
+	<button id="button-kill" onclick="kill()" type="button">KILL</button>
+	<style>
+		#button-kill{
+			background-color: black;
+			font-family: sans-serif;
+			color: white;
+			border: none;
+			padding: 5px 20px;
+			border-radius: 10px;
+		}
+	</style>
+</body>
+
 </html>

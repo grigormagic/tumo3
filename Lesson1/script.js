@@ -1,98 +1,50 @@
-var Predator = require("./predator")
-let matrix = [
-  [0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 3, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
-  [0, 2, 0, 1, 0, 3, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 1, 2, 0, 1, 0, 0, 0, 0, 1, 2, 0, 1, 0, 0, 0, 0, 1, 2],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 3, 0, 0],
-  [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0],
-  [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0],
-  [0, 0, 0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
-  [0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 3, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
-  [0, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 4, 0, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
-  [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
-
-let side = 30;
-
-let grassArr = [];
-let grassEaterArr = [];
-let predatorArr = [];
-let virusArr = [];
-let alienArr = [];
+var socket = io();
 
 function setup() {
-  frameRate(10);
-  createCanvas(matrix[0].length * side + 1, matrix.length * side + 1);
-  background("grey");
-  for (y = 0; y < matrix.length; y++) {
-    for (x = 0; x < matrix[y].length; x++) {
-      if (matrix[y][x] === 1) {
-        const grass = new Grass(x, y);
-        grassArr.push(grass);
-      } else if (matrix[y][x] === 2) {
-        let grassEater = new GrassEater(x, y);
-        grassEaterArr.push(grassEater);
-      } else if (matrix[y][x] === 3) {
-        let predator = new Predator(x, y);
-        predatorArr.push(predator);
-      } else if (matrix[y][x] === 4) {
-        let virus = new Virus(x, y);
-        virusArr.push(virus);
-      } else if (matrix[y][x] === 5) {
-        let alien = new Alien(x, y);
-        alienArr.push(alien);
-      }
+    var weath = 'winter'
+    var side = 25;
+    var matrix = [];
+
+    socket.on("data", drawCreatures);
+    socket.on("weather", function (data) {
+        weath = data;
+    })
+
+    function drawCreatures(data) {
+        matrix = data.matrix;
+
+        createCanvas(matrix[0].length * side, matrix.length * side)
+        background('#acacac');
+
+        for (var i = 0; i < matrix.length; i++) {
+            for (var j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] === 1) {
+                    if (weath === "spring") {
+                        fill("#90EE90")
+                    } else if (weath === "summer") {
+                        fill("#228B22");
+                    } else if (weath === "winter") {
+                        fill("white")
+                    } else if (weath === "autumn") {
+                        fill("green")
+                    }
+                } else if (matrix[i][j] === 2) {
+                    fill("orange");
+                } else if (matrix[i][j] === 3) {
+                    fill("#2a442a");
+                } else if (matrix[i][j] === 4) {
+                    fill('red');
+                } else if (matrix[i][j] === 5) {
+                    fill('blue');
+                } else {
+                    fill("gray");
+                }
+                rect(j * side, i * side, side, side);
+            }
+        }
     }
-  }
 }
 
-function draw() {
-  for (y = 0; y < matrix.length; y++) {
-    for (x = 0; x < matrix[y].length; x++) {
-      if (matrix[y][x] === 1) {
-        fill("green");
-      } else if (matrix[y][x] === 2) {
-        fill("yellow");
-      } else if (matrix[y][x] === 3) {
-        fill("red");
-      } else if (matrix[y][x] === 4) {
-        fill("blue");
-      } else if (matrix[y][x] === 5) {
-        fill("purple");
-      } else {
-        fill("grey");
-      }
-      rect(x * side, y * side, side, side);
-    }
-  }
-
-  for (i = 0; i < grassArr.length; i++) {
-    grassArr[i].mul();
-  }
-  for (i = 0; i < grassEaterArr.length; i++) {
-    grassEaterArr[i].eat();
-  }
-  for (i = 0; i < predatorArr.length; i++) {
-    predatorArr[i].eat();
-  }
-  for (i = 0; i < virusArr.length; i++) {
-    virusArr[i].eat();
-  }
-  for (i = 0; i < alienArr.length; i++) {
-    alienArr[i].eat();
-  }
+function kill() {
+    socket.emit("kill");
 }
